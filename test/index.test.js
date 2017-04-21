@@ -1,5 +1,5 @@
 import { assert, expect } from 'chai';
-import { binarySearch, insertionSort } from '../lib';
+import { binarySearch, insertionSort, selectionSort } from '../lib';
 
 describe('Binary Search', function() {
 
@@ -24,6 +24,17 @@ describe('Insertion Sort', function() {
     let sorted_array = [0,1,2,3,4,5,6,7,8,9];
 
     expect(insertionSort(unsorted_array)).to.deep.equal(sorted_array);
+  });
+
+});
+
+describe('Merge Sort', function() {
+
+  it('should sort the array', function() {
+    let unsorted_array = [2,4,3,6,5,1,9,7,8,0];
+    let sorted_array = [0,1,2,3,4,5,6,7,8,9];
+
+    expect(selectionSort(unsorted_array)).to.deep.equal(sorted_array);
   });
 
 });
