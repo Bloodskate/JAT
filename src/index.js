@@ -1,17 +1,24 @@
+
+//INSERTION SORT
+const insert = (array, index, value) => {
+  //index is the index of last element of sorted part of the array
+  let i;
+  for(i = index; i >= 0 && array[i] > value; i-- ) {
+    array[i + 1] = array[i];
+  }
+  array[i + 1] = value;
+}
+
 export const insertionSort = (array) => {
   let len = array.length; // calculate length to reduce runtime in loop
-  for(let i = 0; i < len; i++) {
-    let current_item = array[i];  // get the current item
-    let j; // initialized here to access below after the loop
-    //comparing current item with items in the sorted part of array one by one right to left and switching if necessary
-    for(j = i-1; j >= 0 && array[j] > current_item; j--) {  
-      array[j + 1] = array[j];
-    }
-    array[j + 1] = current_item;
+  for(let i = 1; i < len; i++) {
+    let current_item = array[i];  // get the current item (item to be inserted in sorted array)
+    insert(array, i - 1, current_item); 
   }
   return array;
 }
 
+//BINARY SEARCH
 
 export const binarySearch = (array, value) => {
   let min = 0;
@@ -28,6 +35,8 @@ export const binarySearch = (array, value) => {
   }
   return -1;    
 }
+
+//SELECTION SORT
 
 const swap = (array, firstIndex, secondIndex) => {
     var temp = array[firstIndex];
@@ -58,44 +67,35 @@ export const selectionSort = (array) => {
     return array;
 };
 
+//MERGE SORT
 
-const merge = (array, low, mid, high) => {
-  let l = low,
-      m = low,
-      k = mid + 1;
-  let B = [];
-  while(l <= mid && k <= high) {
-    if(array[l] <= array[k]) {
-      B[m] = array[l];
-      l++;
+const merge = (left, right) => {
+  let sorted = [];
+  let i = 0, j = 0;
+  let l_len = left.length;
+  let r_len = right.length;
+  while(i < l_len || j < r_len) {
+    if(i < l_len && j < r_len) {
+      if (left[i] < right[j]) {
+        sorted.push(left[i++]);
+      } else {
+        sorted.push(right[j++]);
+      }
+    } else if (i < l_len) {
+      sorted.push(left[i++]);
     } else {
-      B[m] = array[k];
-      k++;
-    }
-    m++;
-  }
-  if(l > mid) {
-    for(let i = k; i < high; i++) {
-      B[m] = array[i];
-      m++;
-    }
-  } else {
-    for( let i = 1; i < mid; i++) {
-      B[m] = array[i];
-      m++;
+      sorted.push(right[j++]);
     }
   }
-  for(let i = low; i < high; i++) {
-    array[i] = B[i];
-  }
+  return sorted;
 }
-
-export const mergeSort = (array, low = 0, high = array.length) =>  {
-  if(low < high) {
-    let mid = Math.floor((low + high)/2);
-    mergeSort(array, low, mid);
-    mergeSort(array, mid + 1, high);
-    merge(array, low, mid, high);
+export const mergeSort = (array) => {
+  let len = array.length;
+  if(len === 1) {
     return array;
   }
+  let mid = Math.floor(len/2);
+  let left = array.slice(0, mid);
+  let right = array.slice(mid, len);
+  return merge(mergeSort(left), mergeSort(right)); 
 }
