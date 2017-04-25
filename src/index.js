@@ -99,3 +99,27 @@ export const mergeSort = (array) => {
   let right = array.slice(mid, len);
   return merge(mergeSort(left), mergeSort(right)); 
 }
+
+// Quick Sort 
+
+const partition = (array, low, high) => {
+  let pivot = high;
+  let seperator = low;
+  for(let i = low; i < high; i++) {
+    if(array[i] <= array[pivot]) {
+      swap(array, i, seperator);
+      seperator++;
+    }
+  }
+  swap(array, pivot, seperator);
+  pivot = seperator;
+  return pivot;
+}
+
+export const quickSort = (array, low = 0, high = array.length - 1) => {
+  if(low < high) {
+    let pivot = partition(array, low, high);
+    quickSort(array, low, pivot - 1);
+    quickSort(array, pivot + 1, high);
+  }
+}
